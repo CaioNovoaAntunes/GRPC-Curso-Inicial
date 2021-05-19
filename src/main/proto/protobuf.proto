@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.zup.edu";
+option java_outer_classname = "FuncionarioServiceOuterClass";
+
+package br.com.zup.edu;
+import "google/protobuf/timestamp.proto";
+
+
+service FuncionarioService{
+
+    rpc cadastrarFuncionario(FuncionarioRequest) returns (FuncionarioResponse) {}
+}
+
+enum Cargo{
+    // Os enum servem para serem escolhidos entre 3 opções, chamamos de 0 desconhecido para que não cai em um nulo
+    DESCONHECIDO = 0;
+    DEV = 1;
+    QA = 2;
+    GERENTE = 3;
+}
+
+
+//As posições são declaradas assim será lido por posição, facilitando encontrar algum dos campos citados
+message FuncionarioRequest{
+    string nome = 1;
+    string cpf = 2;
+    int32 idade = 3;
+    double salario = 4;
+    bool ativo = 5;
+    Cargo cargo = 6;
+
+    message Endereco{
+        string logradouro = 1;
+        string cep = 2;
+        string complemento = 3;
+    }
+
+    repeated Endereco enderecos = 7;
+}
+
+//essa é a resposta que receberemos no final
+message FuncionarioResponse{
+    string nome = 1;
+    google.protobuf.Timestamp criadoEm = 2;
+
+}
